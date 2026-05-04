@@ -38,29 +38,32 @@ export function parseSubscriptionForm(formData: FormData): SubscriptionInput {
     throw new Error("Price must be a valid positive number.");
   }
 
-  if (!billingCycleValues.includes(billingCycle as never)) {
+  if (!billingCycleValues.includes(billingCycle as (typeof billingCycleValues)[number])) {
     throw new Error("Billing cycle is invalid.");
   }
 
   const customCycleDays = customCycleDaysRaw ? Number(customCycleDaysRaw) : null;
-  if (billingCycle === "custom" && (!customCycleDays || customCycleDays < 1)) {
-    throw new Error("Custom billing cycle requires at least 1 day.");
+  if (
+    billingCycle === "custom" &&
+    (!customCycleDays || !Number.isInteger(customCycleDays) || customCycleDays < 1)
+  ) {
+    throw new Error("Custom billing cycle requires a whole number of days greater than 0.");
   }
 
   if (!nextRenewalDateRaw) {
     throw new Error("Next renewal date is required.");
   }
 
-  if (!categoryValues.includes(category as never)) {
+  if (!categoryValues.includes(category as (typeof categoryValues)[number])) {
     throw new Error("Category is invalid.");
   }
 
-  if (!statusValues.includes(status as never)) {
+  if (!statusValues.includes(status as (typeof statusValues)[number])) {
     throw new Error("Status is invalid.");
   }
 
-  if (!Number.isFinite(reminderDaysBefore) || reminderDaysBefore < 0) {
-    throw new Error("Reminder days must be zero or higher.");
+  if (!Number.isInteger(reminderDaysBefore) || reminderDaysBefore < 0) {
+    throw new Error("Reminder days must be a whole number of days zero or higher.");
   }
 
   return {

@@ -8,6 +8,30 @@ export type UpcomingGroups = {
 
 const dayMs = 24 * 60 * 60 * 1000;
 
+function daysInMonth(year: number, monthIndex: number) {
+  return new Date(year, monthIndex + 1, 0).getDate();
+}
+
+function addDays(date: Date, days: number) {
+  const nextDate = new Date(date);
+  nextDate.setDate(nextDate.getDate() + days);
+  return nextDate;
+}
+
+function addMonthsClamped(date: Date, months: number) {
+  const nextDate = new Date(date);
+  const originalDay = nextDate.getDate();
+  const targetMonth = nextDate.getMonth() + months;
+  const targetYear = nextDate.getFullYear() + Math.floor(targetMonth / 12);
+  const normalizedTargetMonth = ((targetMonth % 12) + 12) % 12;
+  const targetDay = Math.min(originalDay, daysInMonth(targetYear, normalizedTargetMonth));
+
+  nextDate.setDate(1);
+  nextDate.setFullYear(targetYear, normalizedTargetMonth, targetDay);
+
+  return nextDate;
+}
+
 export function startOfToday(date = new Date()) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
@@ -35,7 +59,10 @@ export function calculateMonthlyEquivalent(subscription: Pick<Subscription, "pri
     case "yearly":
       return subscription.price / 12;
     case "custom": {
-      const days = subscription.customCycleDays ?? 30;
+      const days = subscription.customCycleDays;
+      if (!days || days < 1) {
+        return 0;
+      }
       return (subscription.price * 365) / days / 12;
     }
     default:
@@ -52,29 +79,20 @@ export function calculateNextRenewalDate(
   billingCycle: string,
   customCycleDays?: number | null
 ) {
-  const nextDate = new Date(currentDate);
-
   switch (billingCycle) {
     case "weekly":
-      nextDate.setDate(nextDate.getDate() + 7);
-      break;
+      return addDays(currentDate, 7);
     case "monthly":
-      nextDate.setMonth(nextDate.getMonth() + 1);
-      break;
+      return addMonthsClamped(currentDate, 1);
     case "quarterly":
-      nextDate.setMonth(nextDate.getMonth() + 3);
-      break;
+      return addMonthsClamped(currentDate, 3);
     case "yearly":
-      nextDate.setFullYear(nextDate.getFullYear() + 1);
-      break;
+      return addMonthsClamped(currentDate, 12);
     case "custom":
-      nextDate.setDate(nextDate.getDate() + Math.max(customCycleDays ?? 30, 1));
-      break;
+      return addDays(currentDate, Math.max(customCycleDays ?? 1, 1));
     default:
-      nextDate.setMonth(nextDate.getMonth() + 1);
+      return addMonthsClamped(currentDate, 1);
   }
-
-  return nextDate;
 }
 
 export function daysUntil(date: Date) {
