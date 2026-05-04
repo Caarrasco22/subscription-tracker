@@ -25,20 +25,6 @@ recurring payments. It is private, practical and intentionally simple.
   - possible savings from cancelling the most expensive item.
 - Local SQLite database through Prisma.
 
-## What v0.1 does not include
-
-- No bank connections.
-- No email scraping.
-- No bank statement imports.
-- No OCR.
-- No AI.
-- No accounts.
-- No payments.
-- No external analytics.
-- No reminder delivery by email or push.
-
-Reminder days are stored now, but reminders are only shown in the app.
-
 ## Stack
 
 - Next.js
