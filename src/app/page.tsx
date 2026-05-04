@@ -23,11 +23,11 @@ export default async function DashboardPage() {
 
   return (
     <div className="grid gap-8">
-      <section className="rounded-3xl border border-line bg-panel p-6 shadow-sm">
+      <section className="overflow-hidden rounded-[2rem] border border-line bg-panel p-6 shadow-sm sm:p-8">
         <p className="text-sm font-bold uppercase tracking-wide text-brand">Privacy-first v0.1</p>
         <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <h1 className="text-4xl font-black tracking-tight text-ink">See what you pay.</h1>
+            <h1 className="text-4xl font-black tracking-tight text-ink sm:text-5xl">See what you pay.</h1>
             <p className="mt-3 max-w-2xl text-muted">
               Track subscriptions manually, spot upcoming renewals, and decide what you could
               cancel. No bank connection. Your data stays local.
@@ -35,7 +35,7 @@ export default async function DashboardPage() {
           </div>
           <Link
             href="/subscriptions/new"
-            className="rounded-xl bg-brand px-4 py-3 text-center font-bold text-white transition hover:bg-blue-700"
+            className="rounded-xl bg-brand px-5 py-3 text-center font-bold text-white shadow-sm transition hover:opacity-90"
           >
             Add subscription
           </Link>
@@ -68,7 +68,7 @@ export default async function DashboardPage() {
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <article className="rounded-2xl border border-line bg-panel p-5 shadow-sm">
+        <article className="rounded-3xl border border-line bg-panel p-5 shadow-sm">
           <h2 className="text-xl font-black text-ink">Simple insights</h2>
           <dl className="mt-4 grid gap-3 text-sm">
             <div className="flex justify-between gap-4 border-b border-line pb-3">

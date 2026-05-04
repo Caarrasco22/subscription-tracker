@@ -1,3 +1,5 @@
+import { ThemeSettings } from "@/components/ThemeSettings";
+
 export default function SettingsPage() {
   return (
     <div className="grid gap-6">
@@ -5,6 +7,8 @@ export default function SettingsPage() {
         <h1 className="text-3xl font-black text-ink">Settings / About</h1>
         <p className="mt-2 text-muted">SubTrack v0.1 is intentionally small and local-first.</p>
       </div>
+
+      <ThemeSettings />
 
       <section className="grid gap-4 rounded-2xl border border-line bg-panel p-5 shadow-sm">
         <h2 className="text-xl font-black text-ink">Privacy note</h2>

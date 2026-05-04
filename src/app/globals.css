@@ -4,11 +4,36 @@
 
 :root {
   color-scheme: light;
+  --color-ink: 23 32 51;
+  --color-muted: 101 114 134;
+  --color-panel: 255 255 255;
+  --color-soft: 244 247 251;
+  --color-line: 220 228 239;
+  --color-brand: 37 99 235;
+  --color-brand-soft: 219 234 254;
+}
+
+.dark {
+  color-scheme: dark;
+  --color-ink: 235 241 250;
+  --color-muted: 151 164 184;
+  --color-panel: 17 24 39;
+  --color-soft: 10 15 26;
+  --color-line: 45 56 74;
+  --color-brand: 96 165 250;
+  --color-brand-soft: 30 58 138;
+}
+
+html {
+  background: rgb(var(--color-soft));
 }
 
 body {
-  background: #f4f7fb;
-  color: #172033;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgb(var(--color-brand-soft) / 0.45), transparent 32rem),
+    linear-gradient(180deg, rgb(var(--color-soft)), rgb(var(--color-panel)));
+  color: rgb(var(--color-ink));
 }
 
 button,
@@ -16,4 +41,11 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+input,
+select,
+textarea {
+  background: rgb(var(--color-panel));
+  color: rgb(var(--color-ink));
 }

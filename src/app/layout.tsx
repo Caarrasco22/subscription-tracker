@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppNav } from "@/components/AppNav";
+import { ThemeScript } from "@/components/ThemeScript";
 
 export const metadata: Metadata = {
   title: "SubTrack - Simple subscription tracker",
@@ -15,10 +16,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased">
+        <ThemeScript />
         <AppNav />
-        <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
+        <main className="mx-auto max-w-6xl px-4 py-8 sm:py-10">{children}</main>
       </body>
     </html>
   );

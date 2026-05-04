@@ -16,9 +16,10 @@ import {
 export function SubscriptionCard({ subscription }: { subscription: Subscription }) {
   const monthlyEquivalent = calculateMonthlyEquivalent(subscription);
   const renewalDistance = daysUntil(subscription.nextRenewalDate);
+  const isInactive = subscription.status !== "active";
 
   return (
-    <article className="rounded-2xl border border-line bg-panel p-5 shadow-sm">
+    <article className={`rounded-3xl border border-line bg-panel p-5 shadow-sm ${isInactive ? "opacity-75" : ""}`}>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-wide text-muted">
@@ -26,7 +27,7 @@ export function SubscriptionCard({ subscription }: { subscription: Subscription 
           </p>
           <h3 className="mt-1 text-xl font-black text-ink">{subscription.name}</h3>
           <p className="mt-2 text-sm text-muted">
-            {formatCurrency(subscription.price, subscription.currency)} ·{" "}
+            {formatCurrency(subscription.price, subscription.currency)} -{" "}
             {labelFor(billingCycles, subscription.billingCycle)}
           </p>
         </div>
@@ -36,20 +37,20 @@ export function SubscriptionCard({ subscription }: { subscription: Subscription 
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-3">
-        <div>
+        <div className="rounded-2xl bg-soft p-3">
           <p className="text-sm font-semibold text-muted">Renews next</p>
           <p className="font-bold text-ink">{formatDate(subscription.nextRenewalDate)}</p>
           <p className="text-sm text-muted">
             {renewalDistance >= 0 ? `${renewalDistance} day(s)` : "Overdue"}
           </p>
         </div>
-        <div>
+        <div className="rounded-2xl bg-soft p-3">
           <p className="text-sm font-semibold text-muted">Monthly equivalent</p>
           <p className="font-bold text-ink">
             {formatCurrency(monthlyEquivalent, subscription.currency)}
           </p>
         </div>
-        <div>
+        <div className="rounded-2xl bg-soft p-3">
           <p className="text-sm font-semibold text-muted">Reminder</p>
           <p className="font-bold text-ink">{subscription.reminderDaysBefore} day(s) before</p>
         </div>
@@ -60,18 +61,18 @@ export function SubscriptionCard({ subscription }: { subscription: Subscription 
       <div className="mt-5 flex flex-wrap gap-2">
         <Link
           href={`/subscriptions/${subscription.id}/edit`}
-          className="rounded-lg border border-line px-3 py-2 text-sm font-bold text-ink hover:border-brand"
+          className="rounded-lg border border-line bg-soft px-3 py-2 text-sm font-bold text-ink hover:border-brand"
         >
           Edit
         </Link>
         <form action={advanceRenewalAction.bind(null, subscription.id)}>
-          <button className="rounded-lg border border-line px-3 py-2 text-sm font-bold text-ink hover:border-brand">
+          <button className="rounded-lg border border-line bg-soft px-3 py-2 text-sm font-bold text-ink hover:border-brand">
             Mark paid
           </button>
         </form>
         {["active", "paused", "cancelled"].map((status) => (
           <form key={status} action={updateSubscriptionStatusAction.bind(null, subscription.id, status)}>
-            <button className="rounded-lg border border-line px-3 py-2 text-sm font-bold text-ink hover:border-brand">
+            <button className="rounded-lg border border-line bg-soft px-3 py-2 text-sm font-bold text-ink hover:border-brand">
               Mark {status}
             </button>
           </form>
